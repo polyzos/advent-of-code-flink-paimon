@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  jobmanager:
+    build: .
+    container_name: jobmanager
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    volumes:
+      - ./logs/flink/:/opt/flink/temp
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        jobmanager.scheduler: Adaptive
+
+  taskmanager:
+    build: .
+    container_name: taskmanager
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    volumes:
+      - ./logs/flink/:/opt/flink/temp
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 5
