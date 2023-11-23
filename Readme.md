@@ -88,17 +88,16 @@ Flink's build-in [datagen connector](https://nightlies.apache.org/flink/flink-do
 ```sql
 CREATE TABLE measurements (
     sensor_id BIGINT,
-    reading DECIMAL(5, 1),
-    event_time TIMESTAMP(3)
+    reading DECIMAL(5, 1)
 ) WITH (
     'connector' = 'datagen',
+    'rows-per-second' = '1000',
     'fields.sensor_id.kind'='random',
-    'fields.sensor_id.min'='1',
-    'fields.sensor_id.max'='100',
+    'fields.sensor_id.min'='0',
+    'fields.sensor_id.max'='100000',
     'fields.reading.kind'='random',
     'fields.reading.min'='0.0',
-    'fields.reading.max'='45.0',
-    'fields.event_time.max-past'='5 s'
+    'fields.reading.max'='45.0'
 );
 ```
 
@@ -139,10 +138,9 @@ CREATE TABLE sensor_info (
     updated_at TIMESTAMP(3)
 ) WITH (
     'connector' = 'datagen',
-    'number-of-rows'='10000',
-    'fields.sensor_id.kind'='random',
-    'fields.sensor_id.min'='1',
-    'fields.sensor_id.max'='100',
+    'fields.sensor_id.kind'='sequence',
+    'fields.sensor_id.start'='1',
+    'fields.sensor_id.end'='100000',
     'fields.latitude.kind'='random',
     'fields.latitude.min'='-90.0',
     'fields.latitude.max'='90.0',
@@ -155,7 +153,9 @@ CREATE TABLE sensor_info (
     'fields.updated_at.max-past'='0'
 );
 ```
-Notice how we specify we want `10000` records, so this means that this table is `bounded`, i.e its not a never-ending stream with events.
+**Notice:** how we specify a sequence for `sensor_ids` of `100000` records.
+
+This means that this table is `bounded`, i.e its not a never-ending stream with events.
 
 ```sql
 Flink SQL> SELECT * FROM sensor_info LIMIT 10;
