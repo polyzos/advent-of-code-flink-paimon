@@ -91,7 +91,7 @@ CREATE TABLE measurements (
     reading DECIMAL(5, 1)
 ) WITH (
     'connector' = 'datagen',
-    'rows-per-second' = '1000',
+--     'rows-per-second' = '1000',
     'fields.sensor_id.kind'='random',
     'fields.sensor_id.min'='0',
     'fields.sensor_id.max'='100000',
