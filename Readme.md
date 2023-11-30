@@ -94,7 +94,7 @@ CREATE TABLE measurements (
     'rows-per-second' = '1000',
     'fields.sensor_id.kind'='random',
     'fields.sensor_id.min'='0',
-    'fields.sensor_id.max'='100000',
+    'fields.sensor_id.max'='1000',
     'fields.reading.kind'='random',
     'fields.reading.min'='0.0',
     'fields.reading.max'='45.0'
@@ -109,22 +109,21 @@ SET 'sql-client.execution.result-mode' = 'tableau';
 
 Then let's verify we can query our table and see some `measurements` data.
 ```sql
-Flink SQL> SELECT * FROM measurements LIMIT 10;
->
-+----+----------------------+---------+-------------------------+
-| op |            sensor_id | reading |              event_time |
-+----+----------------------+---------+-------------------------+
-| +I |                   32 |    24.2 | 2023-11-23 07:30:55.848 |
-| +I |                   16 |    25.6 | 2023-11-23 07:30:52.166 |
-| +I |                   53 |     4.5 | 2023-11-23 07:30:54.164 |
-| +I |                   70 |     6.3 | 2023-11-23 07:30:53.361 |
-| +I |                   51 |    29.0 | 2023-11-23 07:30:53.924 |
-| +I |                   31 |     0.3 | 2023-11-23 07:30:55.476 |
-| +I |                    8 |     7.4 | 2023-11-23 07:30:52.400 |
-| +I |                   60 |    12.2 | 2023-11-23 07:30:51.277 |
-| +I |                   68 |    19.6 | 2023-11-23 07:30:55.154 |
-| +I |                   87 |    34.3 | 2023-11-23 07:30:52.322 |
-+----+----------------------+---------+-------------------------+
+link SQL> SELECT * FROM measurements LIMIT 10;
++----+----------------------+---------+
+| op |            sensor_id | reading |
++----+----------------------+---------+
+| +I |                68804 |    37.8 |
+| +I |                62277 |    16.5 |
+| +I |                70131 |    29.9 |
+| +I |                74241 |     1.8 |
+| +I |                59583 |     4.5 |
+| +I |                10658 |    44.2 |
+| +I |                 3125 |     3.5 |
+| +I |                22844 |    29.3 |
+| +I |                63999 |    13.2 |
+| +I |                31699 |    11.4 |
++----+----------------------+---------+
 Received a total of 10 rows
 ```
 
@@ -140,7 +139,7 @@ CREATE TABLE sensor_info (
     'connector' = 'datagen',
     'fields.sensor_id.kind'='sequence',
     'fields.sensor_id.start'='1',
-    'fields.sensor_id.end'='100000',
+    'fields.sensor_id.end'='1000',
     'fields.latitude.kind'='random',
     'fields.latitude.min'='-90.0',
     'fields.latitude.max'='90.0',
